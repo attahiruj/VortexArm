@@ -1,0 +1,20 @@
+nodes:
+  - id: ssc32u_controller
+  
+    build: pip install -e ssc32u_controller
+    
+    path: ssc32u_controller/ssc32u_controller/main.py
+    inputs:
+      tick: dora/timer/millis/100
+    outputs:
+      - speech
+
+  - id inverse_kinematics
+
+    build : pip install -e inverse_kinematics
+
+    path: inverse_kinematics/inverse_kinematics/main.py
+    inputs:
+      - speech
+    outputs:
+      - speech

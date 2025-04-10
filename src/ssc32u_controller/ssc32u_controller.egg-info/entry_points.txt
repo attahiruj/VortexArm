@@ -1,0 +1,2 @@
+[console_scripts]
+ssc32u_controller = ssc32u_controller.main:main
