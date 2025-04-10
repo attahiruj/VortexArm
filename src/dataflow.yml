@@ -9,7 +9,7 @@ nodes:
     outputs:
       - speech
 
-  - id inverse_kinematics
+  - id: inverse_kinematics
 
     build : pip install -e inverse_kinematics
 
