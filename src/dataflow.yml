@@ -15,6 +15,7 @@ nodes:
 
     path: inverse_kinematics/inverse_kinematics/main.py
     inputs:
-      - speech
+      speech: ssc32u_controller/speech
     outputs:
-      - speech
+      - tick
+      

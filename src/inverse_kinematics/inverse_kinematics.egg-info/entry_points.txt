@@ -1,0 +1,2 @@
+[console_scripts]
+inverse_kinematics = inverse_kinematics.main:main
