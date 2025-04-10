@@ -2,7 +2,9 @@ README.md
 pyproject.toml
 inverse_kinematics/__init__.py
 inverse_kinematics/__main__.py
+inverse_kinematics/inverse_kinematics.py
 inverse_kinematics/main.py
+inverse_kinematics/simulator.py
 inverse_kinematics.egg-info/PKG-INFO
 inverse_kinematics.egg-info/SOURCES.txt
 inverse_kinematics.egg-info/dependency_links.txt

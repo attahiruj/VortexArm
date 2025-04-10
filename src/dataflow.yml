@@ -1,7 +1,7 @@
 nodes:
   - id: ssc32u_controller
   
-    build: pip install -e ssc32u_controller
+    # build: pip install -e ssc32u_controller
     
     path: ssc32u_controller/ssc32u_controller/main.py
     inputs:
@@ -11,11 +11,16 @@ nodes:
 
   - id: inverse_kinematics
 
-    build : pip install -e inverse_kinematics
+    # build : pip install -e inverse_kinematics
 
     path: inverse_kinematics/inverse_kinematics/main.py
+
+    # my_input_id: IK_INPUT
+    # my_output_id: IK_OUTPUT
+
     inputs:
-      speech: ssc32u_controller/speech
+      tick: dora/timer/millis/100
+
     outputs:
       - tick
   - id: webcam

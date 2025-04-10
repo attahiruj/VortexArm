@@ -3,6 +3,7 @@ pyproject.toml
 ssc32u_controller/__init__.py
 ssc32u_controller/__main__.py
 ssc32u_controller/main.py
+ssc32u_controller/ssc32u.py
 ssc32u_controller.egg-info/PKG-INFO
 ssc32u_controller.egg-info/SOURCES.txt
 ssc32u_controller.egg-info/dependency_links.txt
