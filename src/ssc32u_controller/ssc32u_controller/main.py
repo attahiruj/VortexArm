@@ -1,9 +1,13 @@
 from dora import Node
 import pyarrow as pa
+import ssc32u_controller as ssc32u
 
 
 def main():
     node = Node()
+
+    controller = ssc32u.SSC_32U(port="COM3", baud_rate=9600, timeout=1)
+    controller.connect()
 
     for event in node:
         if event["type"] == "INPUT":

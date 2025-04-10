@@ -1,10 +1,11 @@
 from dora import Node
 import pyarrow as pa
+import simulator
 
 
 def main():
     node = Node()
-
+    simulator.run_simulator()
     for event in node:
         if event["type"] == "INPUT":
             if event["id"] == "TICK":
