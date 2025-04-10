@@ -13,6 +13,12 @@ dora build dataflow.yml --uv
 dora run dataflow.yml --uv
 ```
 
+```Running the yolo
+uv pip install -r requirements.txt
+dora up
+dora start dataflow.yml --attach
+```
+
 ## Contribution Guide
 
 - Format with [ruff](https://docs.astral.sh/ruff/):
