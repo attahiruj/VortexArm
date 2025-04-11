@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <div class="mermaid">
+        flowchart TB
+  inverse_kinematics["**inverse_kinematics**"]
+  object_detection/op[object_detection]
+  plot/op[/plot\]
+  ssc32u_controller["**ssc32u_controller**"]
+  webcam/op[webcam]
+subgraph ___dora___ [dora]
+  subgraph ___timer_timer___ [timer]
+    dora/timer/millis/100[\millis/100/]
+  end
+end
+  dora/timer/millis/100 -- tick --> inverse_kinematics
+  webcam/op -- image --> object_detection/op
+  object_detection/op -- bbox --> plot/op
+  webcam/op -- image --> plot/op
+  dora/timer/millis/100 -- tick --> ssc32u_controller
+  dora/timer/millis/100 -- tick --> webcam/op
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, securityLevel: 'loose', theme: 'base' });
+    </script>
+</body>
+
+</html>

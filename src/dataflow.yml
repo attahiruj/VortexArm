@@ -14,32 +14,34 @@ nodes:
     # build : pip install -e inverse_kinematics
 
     path: inverse_kinematics/inverse_kinematics/main.py
-
-    # my_input_id: IK_INPUT
-    # my_output_id: IK_OUTPUT
-
     inputs:
       tick: dora/timer/millis/100
 
     outputs:
       - tick
+  
   - id: webcam
     operator:
-      python: webcam.py
+      # python: webcam.py
+      python: vision/vision/webcam.py
       inputs:
         tick: dora/timer/millis/100
       outputs:
         - image
+  
   - id: object_detection
     operator:
-      python: object_detection.py
+      # python: object_detection.py
+      python: vision/vision/object_detection.py
       inputs:
         image: webcam/image
       outputs:
         - bbox
+  
   - id: plot
     operator:
-      python: plot.py
+      # python: plot.py
+      python: vision/vision/plot.py
       inputs:
         image: webcam/image
         bbox: object_detection/bbox

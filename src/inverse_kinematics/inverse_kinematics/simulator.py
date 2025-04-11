@@ -8,7 +8,7 @@ from inverse_kinematics import get_point
 from inverse_kinematics import get_angles
 
 
-def update_plot(frame, x_slider, y_slider, z_slider, robot_params):
+def update_plot(fig, ax, x_slider, y_slider, z_slider, robot_params):
     """Update function for animation."""
     x = x_slider.val
     y = y_slider.val
@@ -185,7 +185,7 @@ def run_simulator():
     setup_controls(fig, ax, x_slider, y_slider, z_slider, ani, robot_params)
 
     # Initial update
-    update_plot(0, x_slider, y_slider, z_slider, robot_params)
+    update_plot(fig, ax, x_slider, y_slider, z_slider, robot_params)
 
     # Use block=True to ensure window stays open
     plt.show(block=True)
