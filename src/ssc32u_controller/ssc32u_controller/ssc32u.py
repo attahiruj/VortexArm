@@ -1,3 +1,12 @@
+"""
+SSC_32U Controller for controlling servos using SSC-32U board.
+This module provides methods to connect to the SSC-32U, 
+send commands to move servos, and manage multiple servos simultaneously.
+
+Author: Attahiru Jibril
+Date: 2025-04-14
+"""
+
 import serial
 import time
 
@@ -135,4 +144,3 @@ class SSC_32U:
         print(f"Command to send: {command}")
 
         return self.send_command(command)
-

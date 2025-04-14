@@ -1,3 +1,6 @@
 out
 **/*.egg-info/
 __pycache__/
+**.lock
+**.pt
+.venv

@@ -1,13 +1,13 @@
 [project]
 name = "ssc32u_controller"
 version = "0.0.0"
-authors = [{ name = "Your Name", email = "email@email.com" }]
-description = "ssc32u_controller"
+authors = [{ name = "Attahiru Jibril", email = "attahiruj@gmail.com" }]
+description = "ssc32u_controller board driver"
 license = { text = "MIT" }
 readme = "README.md"
 requires-python = ">=3.8"
 
-dependencies = ["dora-rs >= 0.3.9"]
+dependencies = ["dora-rs >= 0.3.9", "pyserial >= 3.5"]
 
 [dependency-groups]
 dev = ["pytest >=8.1.1", "ruff >=0.9.1"]
