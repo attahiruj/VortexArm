@@ -2,17 +2,17 @@ nodes:
   - id: ssc32u_controller
     path: ssc32u_controller/ssc32u_controller/main.py
     inputs:
-      tick: dora/timer/millis/100
+      tick: dora/timer/millis/1000
+      joints: inverse_kinematics/joints
     outputs:
       - speech
 
   - id: inverse_kinematics
     path: inverse_kinematics/inverse_kinematics/main.py
     inputs:
-      tick: dora/timer/millis/100
-
+      tick: dora/timer/millis/1000
     outputs:
-      - tick
+      - joints
   
   - id: webcam
     operator:
@@ -36,10 +36,3 @@ nodes:
       inputs:
         image: webcam/image
         bbox: object_detection/bbox
-      
-  - id: test_k
-    path: test_k/test_k/main.py
-    inputs:
-      tick: dora/timer/millis/100
-    outputs:
-      - speech
