@@ -1,8 +1,5 @@
 nodes:
   - id: ssc32u_controller
-  
-    # build: pip install -e ssc32u_controller
-    
     path: ssc32u_controller/ssc32u_controller/main.py
     inputs:
       tick: dora/timer/millis/100
@@ -10,9 +7,6 @@ nodes:
       - speech
 
   - id: inverse_kinematics
-
-    # build : pip install -e inverse_kinematics
-
     path: inverse_kinematics/inverse_kinematics/main.py
     inputs:
       tick: dora/timer/millis/100
@@ -22,7 +16,6 @@ nodes:
   
   - id: webcam
     operator:
-      # python: webcam.py
       python: vision/vision/webcam.py
       inputs:
         tick: dora/timer/millis/100
@@ -31,7 +24,6 @@ nodes:
   
   - id: object_detection
     operator:
-      # python: object_detection.py
       python: vision/vision/object_detection.py
       inputs:
         image: webcam/image
@@ -40,9 +32,14 @@ nodes:
   
   - id: plot
     operator:
-      # python: plot.py
       python: vision/vision/plot.py
       inputs:
         image: webcam/image
         bbox: object_detection/bbox
       
+  - id: test_k
+    path: test_k/test_k/main.py
+    inputs:
+      tick: dora/timer/millis/100
+    outputs:
+      - speech
