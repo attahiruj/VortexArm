@@ -1,5 +1,13 @@
 # inverse_kinematics
 
+## Overview
+
+The `inverse_kinematics` module provides tools and algorithms for solving inverse kinematics to calculate joint parameters that achieve a desired position of the robot's end effector.
+
+## Simulator
+
+The `inverse_kinematics` module includes a simulator to visualize and test the results of the inverse kinematics calculations. The simulator provides a graphical interface to observe the robot's movements and control the manipulator.
+
 ## Getting started
 
 - Install it with uv:

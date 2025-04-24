@@ -1,50 +1,152 @@
-## Getting started
+# VortexArm
 
-- Install it with:
+VortexArm is a modular, extensible bionic arm, with a focus on real-world deployment, research, and education. It uses a dataflow architecture (dora-rs) for flexible integration of kinematics, actuation, and perception modules.
+
+---
+
+## Table of Contents
+
+- [Project Structure](#project-structure)
+- [Features](#features)
+- [Getting Started](#getting-started)
+- [Usage](#usage)
+- [Contribution Guide](#contribution-guide)
+- [YAML Specification](#yaml-specification)
+- [Examples](#examples)
+
+---
+
+## Project Structure
+
+```
+VORTEXARM/
+├── src/
+│   ├── inverse_kinematics/
+│   │   ├── inverse_kinematics/
+│   │   │   ├── __init__.py
+│   │   │   ├── __main__.py
+│   │   │   ├── inverse_kinematics.py
+│   │   │   ├── main.py
+│   │   │   ├── robot_config.py
+│   │   │   └── simulator.py
+│   │   ├── inverse_kinematics.egg-info/
+│   │   └── tests/
+│   ├── ssc32u_controller/
+│   │   ├── ssc32u_controller/
+│   │   │   ├── __init__.py
+│   │   │   ├── __main__.py
+│   │   │   ├── main.py
+│   │   │   ├── robot_config.py
+│   │   │   └── ssc32u.py
+│   │   ├── ssc32u_controller.egg-info/
+│   │   └── tests/
+│   └── vision/
+│       ├── vision/
+│       │   └── ...
+│       └── tests/
+├── dataflow-graph.html
+├── dataflow.yml
+├── requirements.txt
+├── yolov8n.pt
+├── pyproject.toml
+├── uv.lock
+├── README.md
+└── .gitignore
+```
+
+---
+
+## Features
+
+- **Inverse Kinematics:**  
+  Compute joint angles for desired end-effector positions.
+
+- **SSC-32U Servo Controller Integration:**  
+  Python interface for the Lynxmotion SSC-32U, supporting up to 32 servos, synchronized/group moves, and feedback querying.
+
+- **Vision Module:**  
+  Camera and object detection integration (YOLOv8), enabling perception-driven manipulation.
+
+- **Simulation:**  
+  Test and validate algorithms in a simulated environment.
+
+- **Dataflow Orchestration:**  
+  Modular nodes defined in `dataflow.yml` for flexible, scalable system integration.
+
+---
+
+## Getting Started
+
+**Prerequisites:**
+
+- Python 3.11
+- [uv](https://github.com/astral-sh/uv) (fast Python package management)
+- [dora](https://github.com/dora-rs/dora) (dataflow orchestration)
+
+**Installation:**
 
 ```bash
+git clone https://github.com/attahiruj/VortexArm.git
+cd VortexArm
 uv venv -p 3.11 --seed
 dora build dataflow.yml --uv
 ```
 
-- Run it with:
+**Running the Project:**
 
 ```bash
 dora run dataflow.yml --uv
 ```
 
-```Running the yolo
+**Running the Vision Module (YOLO):**
+
+```bash
 uv pip install -r requirements.txt
 dora up
 dora start dataflow.yml --attach
 ```
 
+---
+
+## Usage
+
+- All main modules (inverse kinematics, controller, vision) are in `src/`.
+- Configure your robot in `robot_config.py` files.
+- Connect modules using `dataflow.yml`.
+- For vision-based tasks, ensure `yolov8n.pt` is present.
+
+---
+
 ## Contribution Guide
 
-- Format with [ruff](https://docs.astral.sh/ruff/):
+- **Format code with [ruff](https://docs.astral.sh/ruff/):**
+  ```bash
+  uv pip install ruff
+  uv run ruff check . --fix
+  ```
+- **Lint code with ruff:**
+  ```bash
+  uv run ruff check .
+  ```
+- **Run tests with [pytest](https://github.com/pytest-dev/pytest):**
+  ```bash
+  uv pip install pytest
+  uv run pytest .
+  ```
 
-```bash
-uv pip install ruff
-uv run ruff check . --fix
-```
-
-- Lint with ruff:
-
-```bash
-uv run ruff check .
-```
-
-- Test with [pytest](https://github.com/pytest-dev/pytest)
-
-```bash
-uv pip install pytest
-uv run pytest . # Test
-```
+---
 
 ## YAML Specification
 
+The `dataflow.yml` file defines the nodes, their connections, and runtime parameters for the system. Modify this file to add, remove, or reconfigure modules.
+
+---
+
 ## Examples
 
-## License
-
-Node Name's code are released under the MIT License
+- **Inverse Kinematics:**  
+  Use the `inverse_kinematics` module to compute joint angles for a target position.
+- **Servo Control:**  
+  Send joint commands to the SSC-32U controller for real-world actuation.
+- **Vision:**  
+  Run object detection using the YOLOv8 model and trigger arm movement based on detections.
