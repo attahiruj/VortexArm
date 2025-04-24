@@ -4,3 +4,4 @@ __pycache__/
 **.lock
 **.pt
 .venv
+.cpython-311.pyc
