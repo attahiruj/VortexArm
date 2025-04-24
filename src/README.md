@@ -42,7 +42,14 @@ VORTEXARM/
 │   │   └── tests/
 │   └── vision/
 │       ├── vision/
-│       │   └── ...
+│       │   ├── __init__.py
+│       │   ├── __main__.py
+│       │   ├── main__.py
+│       │   ├── object_detection.py
+│       │   ├── plot.py
+│       │   ├── utils.py
+│       │   ├── webcam.py
+│       │   ├── yolov8n.pt
 │       └── tests/
 ├── dataflow-graph.html
 ├── dataflow.yml
@@ -79,7 +86,7 @@ VORTEXARM/
 
 **Prerequisites:**
 
-- Python 3.11
+- Python >3.11
 - [uv](https://github.com/astral-sh/uv) (fast Python package management)
 - [dora](https://github.com/dora-rs/dora) (dataflow orchestration)
 
@@ -95,12 +102,6 @@ dora build dataflow.yml --uv
 **Running the Project:**
 
 ```bash
-dora run dataflow.yml --uv
-```
-
-**Running the Vision Module (YOLO):**
-
-```bash
 uv pip install -r requirements.txt
 dora up
 dora start dataflow.yml --attach
@@ -113,9 +114,18 @@ dora start dataflow.yml --attach
 - All main modules (inverse kinematics, controller, vision) are in `src/`.
 - Configure your robot in `robot_config.py` files.
 - Connect modules using `dataflow.yml`.
-- For vision-based tasks, ensure `yolov8n.pt` is present.
+- For vision-based tasks, ensure `yolov8n.pt` is present, can be replaced with compatible YoLO models.
 
 ---
+
+## Yolo model finetuned on custom dataset for Food Ingredients needed to cook Jollof Rice
+- Loaded pre-trained model of Yolo(V12) 
+- Trained pre-trained model(YoloV12) on custom Dataset
+- Finetuned Yolov12 on custom dataset(Coco format) containing cooking ingredients.
+- Validated and Tested model preform on our custom datatest for detecting food ingredients
+- * Results below:
+![alt text](fooddetect.jpg)
+![alt text](foodcook.jpg)
 
 ## Contribution Guide
 
@@ -141,6 +151,8 @@ dora start dataflow.yml --attach
 The `dataflow.yml` file defines the nodes, their connections, and runtime parameters for the system. Modify this file to add, remove, or reconfigure modules.
 
 ---
+
+
 
 ## Examples
 
