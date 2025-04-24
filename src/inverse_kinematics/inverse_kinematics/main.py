@@ -1,40 +1,52 @@
 """
 Main entry point for the inverse kinematics simulation.
 
-Author: Attahiru Jibril
-Date: 2025-04-14
+Author: Attahiru Jibril (Modified)
+Date: 2025-04-20
 """
 
-from dora import Node
-import pyarrow as pa
-from simulator import run_simulation
-from inverse_kinematics import get_angles
+from dora import Node, DoraStatus
+import time
 from robot_config import robot_params
+from simulator import Operator as SimulatorOperator
 
-
-test_coordinates = [
-    (0, 0, 0),
-    (100, 100, 100),
-    (150, 0, 150),
-    (-100, -200, 200),
-    (50, -50, 200),
-]
 
 def main():
-    # run_simulation(robot_params)
+    """Main function to run the Dora node system"""
+    # Initialize the Dora node
     node = Node()
 
-    for t in test_coordinates:
-        x, y, z = t
-        print(f"Testing coordinates: {t}")
-        a_x, a_y, a_z = get_angles(x, y, z, robot_params)
+    # Create the simulator operator
+    simulator = SimulatorOperator()
 
-        for event in node:
-            if event["type"] == "INPUT":
-                node.send_output(
-                    "joints",
-                    pa.array([a_x, a_y, a_z])
-                )
+    # Force immediate initialization
+    print("Starting simulator...")
+    simulator.run_simulation(
+        robot_params,
+        lambda output_id,
+        data,
+        metadata: node.send_output(output_id, data, metadata)
+    )
+
+    print("Simulator started, entering event loop")
+
+    # Process Dora events
+    for event in node:
+        # Process the event
+        status = simulator.on_event(
+            event,
+            lambda output_id, data,
+            metadata: node.send_output(output_id, data, metadata)
+        )
+
+        # Small sleep to prevent CPU hogging
+        time.sleep(0.01)
+
+        # Stop if requested
+        if status == DoraStatus.STOP:
+            break
+
+    print("Exiting simulator")
 
 
 if __name__ == "__main__":
