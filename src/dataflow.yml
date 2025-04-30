@@ -1,26 +1,26 @@
 nodes:
-  - id: ssc32u_controller
-    path: ssc32u_controller/ssc32u_controller/main.py
-    inputs:
-      tick: dora/timer/millis/2000
-      joints: inverse_kinematics/joints
-    outputs:
-      - speech
+  # - id: ssc32u_controller
+  #   path: ssc32u_controller/ssc32u_controller/main.py
+  #   inputs:
+  #     tick: dora/timer/millis/2000
+  #     joints: inverse_kinematics/joints
+  #   outputs:
+  #     - speech
 
-  - id: inverse_kinematics
-    path: inverse_kinematics/inverse_kinematics/inverse_kinematics.py
-    inputs:
-      tick: dora/timer/millis/2000
-      position: simulator/position
-    outputs:
-      - joints
+  # - id: inverse_kinematics
+  #   path: inverse_kinematics/inverse_kinematics/inverse_kinematics.py
+  #   inputs:
+  #     tick: dora/timer/millis/2000
+  #     position: simulator/position
+  #   outputs:
+  #     - joints
   
-  - id: simulator
-    path: inverse_kinematics/inverse_kinematics/main.py
-    inputs:
-      tick: dora/timer/millis/100
-    outputs:
-      - position
+  # - id: simulator
+  #   path: inverse_kinematics/inverse_kinematics/main.py
+  #   inputs:
+  #     tick: dora/timer/millis/100
+  #   outputs:
+  #     - position
 
   - id: webcam
     operator:

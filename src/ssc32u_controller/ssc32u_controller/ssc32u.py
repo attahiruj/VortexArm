@@ -39,13 +39,13 @@ class SSC_32U:
                 timeout=self.timeout
             )
             time.sleep(2)  # Allow time for connection to establish
-            print(f"Connected to SSC_32U on {self.port}")
+            # print(f"Connected to SSC_32U on {self.port}")
             self.connected = True
 
             return True
         except Exception as e:
-            print(f"Warning: Could not connect to SSC_32U: {e}", file=sys.stderr)
-            print("Continuing without SSC_32U control...", file=sys.stderr)
+            # print(f"Warning: Could not connect to SSC_32U: {e}", file=sys.stderr)
+            # print("Continuing without SSC_32U control...", file=sys.stderr)
             self.serial = None
             self.connected = False
 
@@ -57,7 +57,7 @@ class SSC_32U:
             self.serial.close()
             self.serial = None
             self.connected = False
-            print("Disconnected from SSC_32U")
+            # print("Disconnected from SSC_32U")
 
     def send_command(self, command):
         """
@@ -73,12 +73,12 @@ class SSC_32U:
                 command += '\r'
 
             self.serial.write(command.encode())
-            print(f"Sent command: {command.strip()}")
+            # print(f"Sent command: {command.strip()}")
             self.last_command = command
             self.last_command_time = time.time()
             return True
         except Exception as e:
-            print(f"Error sending command: {e}", file=sys.stderr)
+            # print(f"Error sending command: {e}", file=sys.stderr)
             return False
 
     def move_servo(self, channel, position, speed=None, time=None):
@@ -96,7 +96,7 @@ class SSC_32U:
             bool: True if command was sent successfully
         """
         if channel < 0 or channel > 31:
-            print(f"Error: Channel must be between 0 and 31, got {channel}", file=sys.stderr)
+            # print(f"Error: Channel must be between 0 and 31, got {channel}", file=sys.stderr)
             return False
 
         # Find servo config by channel/pin
@@ -112,17 +112,17 @@ class SSC_32U:
         if servo:
             min_pwm = servo["min"]
             max_pwm = servo["max"]
-            print(f"Using limits for servo '{servo_name}': min={min_pwm}, max={max_pwm}")
+            # print(f"Using limits for servo '{servo_name}': min={min_pwm}, max={max_pwm}")
         else:
             min_pwm = self.min_pwm
             max_pwm = self.max_pwm
-            print(f"Using default servo limits: min={min_pwm}, max={max_pwm}")
+            # print(f"Using default servo limits: min={min_pwm}, max={max_pwm}")
 
         if position < min_pwm or position > max_pwm:
-            print(f"Warning: Position must be between {min_pwm} & {max_pwm} ms, got {position}", file=sys.stderr)
+            # print(f"Warning: Position must be between {min_pwm} & {max_pwm} ms, got {position}", file=sys.stderr)
             # Clamp the position to valid range instead of failing
             position = max(min(position, max_pwm), min_pwm)
-            print(f"Clamping to {position}")
+            # print(f"Clamping to {position}")
 
         command = f"#{channel}P{position}"
 
@@ -149,14 +149,14 @@ class SSC_32U:
             bool: True if command was sent successfully
         """
         if len(positions) > 32:
-            print(f"Error: Cannot control more than 32 servos at once, got {len(positions)}", file=sys.stderr)
+            # print(f"Error: Cannot control more than 32 servos at once, got {len(positions)}", file=sys.stderr)
             # Truncate to 32 instead of failing
             positions = positions[:32]
 
         command = ""
         for channel, position in positions:
             if channel < 0 or channel > 31:
-                print(f"Error: Channel {channel} must be between 0 and 31", file=sys.stderr)
+                # print(f"Error: Channel {channel} must be between 0 and 31", file=sys.stderr)
                 continue  # Skip this channel instead of failing
 
             # Find servo config by channel/pin
@@ -185,28 +185,26 @@ class SSC_32U:
             if angle:
                 # Check if angle is within the servo's angle range
                 if position < min_angle or position > max_angle:
-                    print(f"Warning: Angle {position}° for channel {channel} is outside range [{min_angle}, {max_angle}]",
-                          file=sys.stderr)
+                    # print(f"Warning: Angle {position}° for channel {channel} is outside range [{min_angle}, {max_angle}]",file=sys.stderr)
                     position = max(min(position, max_angle), min_angle)
-                    print(f"Clamping angle to {position}°")
+                    # print(f"Clamping angle to {position}°")
 
                 # Convert angle to PWM value
                 pwm_value = self.calculate_pwm_for_servo(servo_name, position)
-                print(f"Channel {channel} ({servo_name if servo_name else 'unknown'}): Angle {position}° -> PWM {pwm_value}")
+                # print(f"Channel {channel} ({servo_name if servo_name else 'unknown'}): Angle {position}° -> PWM {pwm_value}")
                 position = pwm_value  # Use the calculated PWM value
 
             if position < min_pwm or position > max_pwm:
-                print(f"Warning: Position {position} for channel {channel} must be between {min_pwm} & {max_pwm}",
-                      file=sys.stderr)
+                # print(f"Warning: Position {position} for channel {channel} must be between {min_pwm} & {max_pwm}",file=sys.stderr)
                 # Clamp the position to valid range instead of failing
                 position = max(min(position, max_pwm), min_pwm)
-                print(f"Clamping to {position}")
+                # print(f"Clamping to {position}")
 
             # Add servo command to the command string
             command += f"#{channel}P{position}"
 
         if not command:
-            print("Error: No valid servo positions to command", file=sys.stderr)
+            # print("Error: No valid servo positions to command", file=sys.stderr)
             return False
 
         if speed is not None:
@@ -218,7 +216,7 @@ class SSC_32U:
         if time is not None:
             command += f"T{time}"
 
-        print(f"Command to send: {command}")
+        # print(f"Command to send: {command}")
 
         return self.send_command(command)
 
@@ -236,13 +234,13 @@ class SSC_32U:
                 command += '\r'
 
             self.serial.write(command.encode())
-            print(f"Sent query: {command.strip()}")
+            # print(f"Sent query: {command.strip()}")
 
             if wait_for_response:
                 return self.read_response()
             return None
         except Exception as e:
-            print(f"Error sending query: {e}", file=sys.stderr)
+            # print(f"Error sending query: {e}", file=sys.stderr)
             return None
 
     def read_response(self, timeout=1.0):
@@ -266,25 +264,25 @@ class SSC_32U:
                     if byte_data == b'\r' or len(response_buffer) > 0 and time.time() - start_time > 0.1:
                         try:
                             response = response_buffer.decode('utf-8').strip()
-                            print(f"SSC_32U response: {response}")
+                            # print(f"SSC_32U response: {response}")
                             return response
                         except UnicodeDecodeError:
-                            print("Error: Unable to decode SSC_32U response", file=sys.stderr)
+                            # print("Error: Unable to decode SSC_32U response", file=sys.stderr)
                             return None
                 except Exception as e:
-                    print(f"Error reading from SSC_32U: {e}", file=sys.stderr)
+                    # print(f"Error reading from SSC_32U: {e}", file=sys.stderr)
                     return None
             time.sleep(0.01)  # Small delay to prevent CPU hogging
 
         if len(response_buffer) > 0:
             try:
                 response = response_buffer.decode('utf-8').strip()
-                print(f"SSC_32U response (timeout reached): {response}")
+                # print(f"SSC_32U response (timeout reached): {response}")
                 return response
             except:
                 pass
 
-        print("No response from SSC_32U", file=sys.stderr)
+        # print("No response from SSC_32U", file=sys.stderr)
         return None
 
     def query_movement_status(self):
@@ -320,7 +318,7 @@ class SSC_32U:
         try:
             # Get servo configuration
             if servo_name not in self.servo_config:
-                print(f"Warning: Unknown servo '{servo_name}', using default mapping", file=sys.stderr)
+                # print(f"Warning: Unknown servo '{servo_name}', using default mapping", file=sys.stderr)
                 return self.map_deg_to_pwm(angle)
 
             config = self.servo_config[servo_name]
@@ -353,7 +351,7 @@ class SSC_32U:
                 return self.map_angle_to_pwm(angle, min_angle, max_angle, min_pwm, max_pwm, False)
 
         except Exception as e:
-            print(f"Error calculating PWM for servo {servo_name}: {e}", file=sys.stderr)
+            # print(f"Error calculating PWM for servo {servo_name}: {e}", file=sys.stderr)
             if servo_name in self.servo_config:
                 # Return the middle value as a safe default
                 return (self.servo_config[servo_name]["min"] + self.servo_config[servo_name]["max"]) // 2
@@ -400,7 +398,7 @@ class SSC_32U:
             # Ensure angle is within the allowed range
             constrained_angle = max(min(angle, max_angle), min_angle)
             if constrained_angle != angle:
-                print(f"Angle {angle:.1f}° constrained to {constrained_angle:.1f}° (range: {min_angle}° to {max_angle}°)")
+                # print(f"Angle {angle:.1f}° constrained to {constrained_angle:.1f}° (range: {min_angle}° to {max_angle}°)")
                 angle = constrained_angle
 
             # Handle special case where min_angle == max_angle
@@ -421,10 +419,10 @@ class SSC_32U:
             # Ensure the result is within range
             pwm = max(min(pwm, max_pwm), min_pwm)
 
-            print(f"Mapped angle {angle:.1f}° to PWM {pwm} (range: {min_pwm}-{max_pwm}, inverted: {is_inverted})")
+            # print(f"Mapped angle {angle:.1f}° to PWM {pwm} (range: {min_pwm}-{max_pwm}, inverted: {is_inverted})")
             return pwm
 
         except Exception as e:
-            print(f"Error mapping angle to PWM: {e}", file=sys.stderr)
+            # print(f"Error mapping angle to PWM: {e}", file=sys.stderr)
             # Return a safe middle value
             return (max_pwm + min_pwm) // 2

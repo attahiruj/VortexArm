@@ -9,7 +9,7 @@ from dora import DoraStatus
 
 CAMERA_WIDTH = 640
 CAMERA_HEIGHT = 480
-CAMERA_INDEX = int(os.getenv("CAMERA_INDEX", 0))
+CAMERA_INDEX = int(os.getenv("CAMERA_INDEX", 1))
 CI = os.environ.get("CI")
 
 font = cv2.FONT_HERSHEY_SIMPLEX

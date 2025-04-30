@@ -116,7 +116,7 @@ class Operator:
 
             if angle < min_angle or angle > max_angle:
                 limited_angle = max(min(angle, max_angle), min_angle)
-                print(f"Limiting {servo_name} angle from {angle:.1f}° to {limited_angle:.1f}° (range: {min_angle}° to {max_angle}°)")
+                # print(f"Limiting {servo_name} angle from {angle:.1f}° to {limited_angle:.1f}° (range: {min_angle}° to {max_angle}°)")
                 return limited_angle
 
         return angle

@@ -24,7 +24,7 @@ def main():
     elbow_pin = servo_config["elbow"]["pin"]
     wrist_pin = servo_config["wrist"]["pin"]
 
-    print("Initializing SSC_32U controller...")
+    # print("Initializing SSC_32U controller...")
     controller = SSC_32U(port="COM3", baud_rate=9600, timeout=1)
 
     connected = False
@@ -32,7 +32,8 @@ def main():
         connected = controller.connect()
 
     if not connected:
-        print("Warning: SSC_32U not connected. Will continue in simulation mode.", file=sys.stderr)
+        # print("Warning: SSC_32U not connected. Will continue in simulation mode.", file=sys.stderr)
+        pass
 
     # Send initial message confirming readiness
     node.send_output("speech", pa.array(["Robot arm controller initialized"]), {})
@@ -46,7 +47,7 @@ def main():
 
                     # Check if we have the right number of angles
                     if len(joint_angles) < 3:
-                        print(f"Error: Expected 3 joint angles, got {len(joint_angles)}", file=sys.stderr)
+                       # print(f"Error: Expected 3 joint angles, got {len(joint_angles)}", file=sys.stderr)
                         node.send_output("speech", pa.array(["Invalid joint data received"]), {})
                         continue
 
@@ -60,19 +61,19 @@ def main():
                         base_min = servo_config["base"]["min_angle"]
                         base_max = servo_config["base"]["max_angle"]
                         if base_angle < base_min or base_angle > base_max:
-                            print(f"Warning: Base angle {base_angle}° is outside range [{base_min}, {base_max}]")
+                           # print(f"Warning: Base angle {base_angle}° is outside range [{base_min}, {base_max}]")
                             base_angle = max(min(base_angle, base_max), base_min)
                             
                         shoulder_min = servo_config["shoulder"]["min_angle"]
                         shoulder_max = servo_config["shoulder"]["max_angle"]
                         if shoulder_angle < shoulder_min or shoulder_angle > shoulder_max:
-                            print(f"Warning: Shoulder angle {shoulder_angle}° is outside range [{shoulder_min}, {shoulder_max}]")
+                           # print(f"Warning: Shoulder angle {shoulder_angle}° is outside range [{shoulder_min}, {shoulder_max}]")
                             shoulder_angle = max(min(shoulder_angle, shoulder_max), shoulder_min)
                             
                         elbow_min = servo_config["elbow"]["min_angle"]
                         elbow_max = servo_config["elbow"]["max_angle"]
                         if elbow_angle < elbow_min or elbow_angle > elbow_max:
-                            print(f"Warning: Elbow angle {elbow_angle}° is outside range [{elbow_min}, {elbow_max}]")
+                           # print(f"Warning: Elbow angle {elbow_angle}° is outside range [{elbow_min}, {elbow_max}]")
                             elbow_angle = max(min(elbow_angle, elbow_max), elbow_min)
 
                         multiple_positions = [
@@ -82,22 +83,23 @@ def main():
                         ]
 
                         # Print the joint angles for debugging
-                        print(f"""
-                            Received joint angles:
-                            Base: {base_angle}°,
-                            Shoulder: {shoulder_angle}°,
-                            Elbow: {elbow_angle}°
-                            """)
+                        # print(f"""
+                        #     Received joint angles:
+                        #     Base: {base_angle}°,
+                        #     Shoulder: {shoulder_angle}°,
+                        #     Elbow: {elbow_angle}°
+                        #     """)
 
                         # Send command to move servos if connected
                         if controller.connected:
                             controller.move_multiple_servos(multiple_positions, speed=100, angle=True)
                             node.send_output("speech", pa.array([f"Moving to position: B={base_angle:.1f}°, S={shoulder_angle:.1f}°, E={elbow_angle:.1f}°"]), {})
                         else:
-                            print("Simulating servo movement (not connected)", file=sys.stderr)
+                            # print("Simulating servo movement (not connected)", file=sys.stderr)
+                            pass
 
                     except Exception as e:
-                        print(f"Error processing joint angles: {e}", file=sys.stderr)
+                        # print(f"Error processing joint angles: {e}", file=sys.stderr)
                         node.send_output("speech", pa.array(["Error processing joint data"]), {})
 
                 elif event["id"] == "tick":
@@ -111,7 +113,7 @@ def main():
                 break
 
         except Exception as e:
-            print(f"Error in event loop: {e}", file=sys.stderr)
+            # print(f"Error in event loop: {e}", file=sys.stderr)
             # Continue running despite errors
             continue
 

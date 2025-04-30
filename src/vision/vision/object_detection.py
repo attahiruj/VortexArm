@@ -9,7 +9,8 @@ CAMERA_WIDTH = 640
 CAMERA_HEIGHT = 480
 
 
-model = YOLO("yolov8n.pt")
+# model = YOLO("yolov8n.pt")
+model = YOLO("yolov8mSpice.pt")
 
 
 class Operator:
@@ -26,8 +27,22 @@ class Operator:
             frame = (
                 dora_event["value"].to_numpy().reshape((CAMERA_HEIGHT, CAMERA_WIDTH, 3))
             )
-            frame = frame[:, :, ::-1]  # OpenCV image (BGR to RGB)
-            results = model(frame, verbose=False)  # includes NMS
+            # frame = frame[:, :, ::-1]  # OpenCV image (BGR to RGB)
+            
+            # frame = dora_event["value"]
+            print(frame.shape)
+            print(frame)
+            results = model(frame, show=True, conf=0.25, iou=0.45)  # includes NMS
+            
+            for result in results:
+                boxes = result.boxes.cpu().numpy()
+                
+                xyxy = boxes.xyxy
+                print(xyxy)
+
+            # results = model(frame, verbose=False)  # includes NMS
+            
+            print(results[0])
             # Process results
             boxes = np.array(results[0].boxes.xyxy.cpu())
             conf = np.array(results[0].boxes.conf.cpu())
