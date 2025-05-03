@@ -1,0 +1,23 @@
+names:
+- blended_pepper
+- blended_tomatoes_pepper
+- cooking_pot
+- curry_powder
+- garlic_powder
+- maggie_open
+- oil
+- raw_rice
+- salt
+- sliced_onions
+- spatula
+- water
+nc: 12
+roboflow:
+  license: MIT
+  project: cooking_jollof_rice
+  url: https://universe.roboflow.com/jollof-ingredient-detection/cooking_jollof_rice/dataset/1
+  version: 1
+  workspace: jollof-ingredient-detection
+test: ../test/images
+train: ../train/images
+val: ../valid/images

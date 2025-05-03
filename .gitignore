@@ -6,4 +6,4 @@ __pycache__/
 .cpython-311.pyc
 src/vision/vision/runs/
 ssh.exe.stackdump
-model-finetunning/
+best.pt
