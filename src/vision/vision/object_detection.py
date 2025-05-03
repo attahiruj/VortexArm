@@ -9,8 +9,8 @@ CAMERA_WIDTH = 640
 CAMERA_HEIGHT = 480
 
 
-# model = YOLO("yolov8n.pt")
 model = YOLO("yolov8mSpice.pt")
+
 
 
 class Operator:
@@ -30,15 +30,26 @@ class Operator:
             # frame = frame[:, :, ::-1]  # OpenCV image (BGR to RGB)
             
             # frame = dora_event["value"]
-            print(frame.shape)
-            print(frame)
-            results = model(frame, show=True, conf=0.25, iou=0.45)  # includes NMS
+            # print(frame.shape)
+            # print(frame)
+            results = model(frame, conf=0.45, iou=0.45)  # includes NMS
+            # results = model(frame, conf=0.25, iou=0.45)  # includes NMS
+            frame_third = CAMERA_WIDTH // 3  # Divide the frame width into 3 parts
             
             for result in results:
                 boxes = result.boxes.cpu().numpy()
-                
                 xyxy = boxes.xyxy
-                print(xyxy)
+                
+                for box in xyxy:
+                    x_center = (box[0] + box[2]) / 2  # Calculate the center x-coordinate of the box
+                    if x_center < frame_third:
+                        position = "left"
+                    elif x_center < 2 * frame_third:
+                        position = "middle"
+                    else:
+                        position = "right"
+                    
+                    print(f"Box center at x={x_center}: {position}")
 
             # results = model(frame, verbose=False)  # includes NMS
             

@@ -1,6 +1,6 @@
 # VortexArm
 
-VortexArm is a modular, extensible bionic arm, with a focus on real-world deployment, research, and education. It uses a dataflow architecture (dora-rs) for flexible integration of kinematics, actuation, and perception modules.
+VortexArm is a modular, extensible bionic arm, with a focus on real-world deployment, research, and education. It uses a dataflow architecture (dora-rs) for flexible integration of kinematics, actuation, and perception modules. The dataset used for spices detection was annotated in Roboflow before fintunning with Yolo8m.pt.
 
 ---
 
@@ -20,6 +20,18 @@ VortexArm is a modular, extensible bionic arm, with a focus on real-world deploy
 
 ```
 VORTEXARM/
+├── model-finetunning/
+│   ├── Cooking_Jollof_Rice-1/
+│   ├── runs/
+│   │   ├── detect/
+│   ├── predict-sample/
+│   │   │   ├── best.pt
+│   │   │   ├── image.jpg
+│   │   │   ├── spice-detection.py
+│   ├── spices_training_yoloy8.ipynb
+│   ├── yolov8m.pt
+├── samples/
+│   ├── ...
 ├── src/
 │   ├── inverse_kinematics/
 │   │   ├── inverse_kinematics/
@@ -49,14 +61,12 @@ VORTEXARM/
 │       │   ├── plot.py
 │       │   ├── utils.py
 │       │   ├── webcam.py
-│       │   ├── yolov8n.pt
+│       │   ├── yolov8mSpice.pt
 │       └── tests/
-├── dataflow-graph.html
-├── dataflow.yml
-├── requirements.txt
-├── yolov8n.pt
-├── pyproject.toml
-├── uv.lock
+│   └── dataflow-graph.html
+│   └── dataflow.yml
+│   └── requirements.txt
+│   └── pyproject.toml
 ├── README.md
 └── .gitignore
 ```
@@ -72,7 +82,7 @@ VORTEXARM/
   Python interface for the Lynxmotion SSC-32U, supporting up to 32 servos, synchronized/group moves, and feedback querying.
 
 - **Vision Module:**  
-  Camera and object detection integration (YOLOv8), enabling perception-driven manipulation.
+  Camera and object detection integration (Finetuned YOLOv8m), Detects spice location and send coordinates
 
 - **Simulation:**  
   Test and validate algorithms in a simulated environment.
@@ -114,14 +124,14 @@ dora start dataflow.yml --attach
 - All main modules (inverse kinematics, controller, vision) are in `src/`.
 - Configure your robot in `robot_config.py` files.
 - Connect modules using `dataflow.yml`.
-- For vision-based tasks, ensure `yolov8n.pt` is present, can be replaced with compatible YoLO models.
+- For vision-based tasks, ensure `yolov8m.pt` is present, can be replaced with compatible YoLO models.
 
 ---
 
 ## Yolo model finetuned on custom dataset for Food Ingredients needed to cook Jollof Rice
-- Loaded pre-trained model of Yolo(V12) 
-- Trained pre-trained model(YoloV12) on custom Dataset
-- Finetuned Yolov12 on custom dataset(Coco format) containing cooking ingredients.
+- Annotated dataset exported for Yolo8 from RoboFlow [Model Finetuning Folder](model-finetunning/Cooking_Jollof_Rice-1)
+- Finetunned model used for detection in Vision module [Vision module](src/vision/vision)
+- Test script for detection available model-finetunning [spice-detection](model-finetunning/spice-detection.py)
 - Validated and Tested model preform on our custom datatest for detecting food ingredients
 - * Results below:
 ![alt text](fooddetect.jpg)

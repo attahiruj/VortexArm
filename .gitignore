@@ -2,6 +2,8 @@ out
 **/*.egg-info/
 __pycache__/
 **.lock
-**.pt
 .venv
 .cpython-311.pyc
+src/vision/vision/runs/
+ssh.exe.stackdump
+model-finetunning/
