@@ -130,12 +130,15 @@ dora start dataflow.yml --attach
 
 ## Yolo model finetuned on custom dataset for Food Ingredients needed to cook Jollof Rice
 - Annotated dataset exported for Yolo8 from RoboFlow [Model Finetuning Folder](model-finetunning/Cooking_Jollof_Rice-1)
+![Dataset sample](samples/dataset.png)
 - Finetunned model used for detection in Vision module [Vision module](src/vision/vision)
 - Test script for detection available model-finetunning [spice-detection](model-finetunning/spice-detection.py)
 - Validated and Tested model preform on our custom datatest for detecting food ingredients
 - * Results below:
-![alt text](fooddetect.jpg)
-![alt text](foodcook.jpg)
+![Validation sample predection](samples/val_batch0_pred.jpg)
+![Cooking sample](samples/image.png)
+
+
 
 ## Contribution Guide
 
