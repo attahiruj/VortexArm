@@ -2,6 +2,7 @@
 
 VortexArm is a modular, extensible bionic arm, with a focus on real-world deployment, research, and education. It uses a dataflow architecture (dora-rs) for flexible integration of kinematics, actuation, and perception modules. The dataset used for spices detection was annotated in Roboflow before fintunning with Yolo8m.pt.
 
+[Demo](https://youtu.be/DawQksS-GZ4)
 ---
 
 ## Table of Contents
